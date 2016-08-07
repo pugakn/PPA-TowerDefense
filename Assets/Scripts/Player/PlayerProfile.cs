@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class PlayerProfile : MonoBehaviour {
 
 	// Use this for initialization
@@ -20,6 +20,8 @@ public class PlayerProfile : MonoBehaviour {
 	void Death(){
 		Destroy(gameObject);
 		mainControler.GetComponent<WaveScreen>().stopGame();
+		SceneManager.LoadScene("GameOver");
+
 	}
 	void takeDamage(){
 		life -- ;

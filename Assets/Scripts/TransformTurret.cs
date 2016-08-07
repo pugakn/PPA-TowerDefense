@@ -17,21 +17,7 @@ public class TransformTurret : MonoBehaviour {
 			touchingTime = 0;
 
 	}
-	void OnMouseDown(){
 
-		if (!wave.GetComponent<WaveScreen>().onPlay && !wave.GetComponent<PlaceTorret>().onUI){
-			if (Input.touchCount == 1 ){
-				touchingTimeAccum += Time.deltaTime;
-				Debug.Log(touchingTimeAccum);
-				if (touchingTimeAccum > touchingTime){
-					canvas.enabled = true;
-					wave.GetComponent<PlaceTorret>().enterUI();
-					wave.GetComponent<PlaceTorret>().SetObj(gameObject);
-					touchingTimeAccum = 0;
-				}
-			}
-		}
-	}
 	public void Transforming(){
 		if (wave.GetComponent<WaveScreen>().towers > 0){
 			Instantiate(turret, transform.position,transform.rotation);
