@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class PlayerProfile : MonoBehaviour {
 
 	// Use this for initialization
 	public int life;
 	private GameObject mainControler;
+	private Text playerLife;
 	void Start () {
 		mainControler = GameObject.Find("Main Camera");
+		playerLife =  GameObject.Find("PlayerLife").GetComponent<Text>();
 	}
 
 	// Update is called once per frame
@@ -25,6 +28,7 @@ public class PlayerProfile : MonoBehaviour {
 	}
 	void takeDamage(){
 		life -- ;
+		playerLife.text = "Player: " + life.ToString();
 		if (life <= 0 ){
 			Death();
 		}

@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\LoadSceneManager.cs" />
      <Compile Include="Assets\Scripts\MapStartUp\LoadMap.cs" />
      <Compile Include="Assets\Scripts\MapStartUp\PrintMap.cs" />
+     <Compile Include="Assets\Scripts\Mlg\MlgStats.cs" />
      <Compile Include="Assets\Scripts\PlaceTorret.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerProfile.cs" />
      <Compile Include="Assets\Scripts\Player\p_move.cs" />
@@ -61,8 +62,10 @@
      <Compile Include="Assets\Scripts\WaveScreen.cs" />
      <Compile Include="Assets\Scripts\WaveScreenCamera.cs" />
      <Compile Include="Assets\Scripts\Waves_timer.cs" />
+     <None Include="Assets\Scripts\maps\Mlg.txt" />
      <None Include="Assets\Scripts\maps\Test.txt" />
      <None Include="Assets\Scripts\maps\Test 1.txt" />
+     <None Include="Assets\Scripts\maps\Map001.txt" />
      <None Include="Assets\Scripts\maps\MAP360HDNOFAKE.txt" />
      <None Include="Assets\Scripts\maps\Level_2.txt" />
  <Reference Include="UnityEngine.UI">

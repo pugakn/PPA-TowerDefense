@@ -85,7 +85,7 @@ public float towerRange;
 				targetEnemy = null;
 			}
 		}
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.5f);
 	}
 
 	void DamageEnemy(){

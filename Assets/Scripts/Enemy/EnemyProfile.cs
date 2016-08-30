@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EnemyProfile : MonoBehaviour {
@@ -9,49 +9,39 @@ public class EnemyProfile : MonoBehaviour {
     {
         if (Special == "Dodge")
         {
-
         } else
        if (Special == "Regen")
         {
-
         } else
        if (Special == "Fly")
         {
-
         }
         if (Special == "Ground")
         {
-
         }
         else
         if (Special == "Slow")
         {
-
         }
         else
         if (Special == "Shield")
         {
-
         }
         else
         if (Special == "Troll")
         {
-
         }
         else
         if (Special == "Shooter")
         {
-
         }
         else
         if (Special == "Ninja")
         {
-
         }
         else
         if (Special == "Healer")
         {
-
         }
     }*/
 

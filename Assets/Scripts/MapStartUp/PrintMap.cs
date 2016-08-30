@@ -23,7 +23,6 @@ private enum sprt_name{
 
 public GameObject[] prefabs;
 public GameObject ply_;
-public int last_playerx, last_playery;
 public List<Vector2> badPositions;
 public float height;
 public float width;
@@ -38,12 +37,12 @@ public void print_map () {
 	Vector3 playerpos = new Vector3(0,0,0);
 
 	ply_ =  			(GameObject)Instantiate(prefabs[(int)sprt_name.PLAYER], playerpos, Quaternion.identity);
-	GameObject Enemy  = (GameObject)Instantiate (prefabs [(int)sprt_name.ENEMY], playerpos, Quaternion.identity);
+	//GameObject Enemy  = (GameObject)Instantiate (prefabs [(int)sprt_name.ENEMY], playerpos, Quaternion.identity);
 	//Buscar todos los caracteres dentro del arreglo
 	for (int i = 0; i < GetComponent<LoadMap> ().m_rows; i++) {
 		for (int j = 0; j < GetComponent<LoadMap> ().m_cols; j++) {
 			for (int k = 0; k < (int)sprt_name.SPRITES_COUNT; k++) {
-				if (GetComponent<LoadMap> ().Grid [i] [j] == (char)((int)'a'+ k)) {//Codigo ascci de la letra a
+				if (GetComponent<LoadMap> ().Grid [i] [j] == (char)((int)'a'+ k)) {
 					Vector3 position_ = new Vector3 (j * width, -i * height, 0);
 					if (GetComponent<LoadMap> ().Grid [i] [j] == 'b') {
 													Vector2 temp = new Vector2((int)j, (int)i);
@@ -51,20 +50,20 @@ public void print_map () {
 					}
 					if (GetComponent<LoadMap> ().Grid [i] [j] == 'h') {//h es el caracter representativo del player
 
-						last_playerx = j;
-						last_playery = i;
 						ply_.name = "Player_1";
 						ply_.transform.Translate (position_);
-						Instantiate (prefabs [(int)sprt_name.FLOOR_1], position_, Quaternion.identity);
-
-					} else if(GetComponent<LoadMap>().Grid[i][j] == 'a'){
-
-						Enemy.transform.position = position_;
 						Instantiate (prefabs [(int)sprt_name.FLOOR_1], position_, Quaternion.identity);
 
 					} else {
 
 						Instantiate (prefabs [k], position_, Quaternion.identity);
+                        if(k == 9)
+                            {
+															Debug.Log("jajaja");
+                                Vector2 coords = new Vector2(j, i);
+                                GameObject.Find("Mlg(Clone)").GetComponent<MlgStats>().SetPosition(coords);
+                            }
+
 
 					}
 					k = (int)sprt_name.SPRITES_COUNT + 1;

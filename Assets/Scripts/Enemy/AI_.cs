@@ -5,45 +5,54 @@ using System.Runtime.InteropServices;
 
 public class AI_ : MonoBehaviour {
 
-  private List<Vector2> movsxy;
+    private enum Target { PLAYER,MLG};
+    private List<Vector2> movsxy;
 	private float blockSize = 0.5f;
-	private int movs = 0;
+    private int movs = 0;
+    private int nextTarget = 0;
+    private bool endOfPath = false;
+    private Vector2 nextTargetPos;
+    private Rigidbody2D rgbod;
+    private Target currentTarget;
+    private float time;
+    public float Speed;
 
-	public float Speed;
-	private Vector2 nextTargetPos;
-	private int nextTarget = 0;
-	private bool endOfPath = false;
-  private Rigidbody2D rgbod;
-
-	// Use this for initialization
-	void Start () {
-    rgbod = GetComponent<Rigidbody2D>();
-		SeekPlayer ();
-		//InvokeRepeating ("FollowPath", Speed, Speed);
+    // Use this for initialization
+    void Start () {
+        rgbod = GetComponent<Rigidbody2D>();
+        currentTarget = UpdateTarget();
+        time = Time.time;
+        SeekTarget(currentTarget);
 	}
 
 	// Update is called once per frame
 	void Update () {
-
 		FollowPath ();
-
 	}
 
-	void SeekPlayer(){
-//		Vector2 playerCoords = map.GetComponent<PrintMap> ().ply_.GetComponent<p_move> ().GetPosition ();
-//		int p_x = (int)playerCoords.x;
-//		int p_y = (int)playerCoords.y;
+	void SeekTarget(Target target){
 
-		Vector2 currentPos = new Vector2 (Mathf.RoundToInt (transform.position.x / blockSize),
+        Vector2 currentPos = new Vector2 (Mathf.RoundToInt (transform.position.x / blockSize),
 										  Mathf.RoundToInt (-transform.position.y / blockSize));
-
 
         movsxy = new List<Vector2>();
 
-        movsxy = GameObject.Find("Main Camera").GetComponent<PathToPlayer>().GetPathToPlayer(currentPos);
+        Vector2 targetPos = new Vector2();
 
-		nextTarget = 0;
-        //Probablemente no necesario, pero no hay que arriesgar xD
+        switch (target)
+        {
+            case Target.PLAYER:
+                targetPos = GameObject.Find("Player_1").GetComponent<PlayerControl>().GetPosition();
+                break;
+            case Target.MLG:
+                targetPos = GameObject.Find("Mlg(Clone)").GetComponent<MlgStats>().GetPosition();
+                break;
+        }
+
+        movsxy = GameObject.Find("Main Camera").GetComponent<PathToPlayer>().GetPathToPlayer(currentPos, targetPos);
+
+        nextTarget = 0;
+
         if (movsxy.Count > 1) {
             nextTargetPos = new Vector2 ((float)movsxy[1].x, -(float)movsxy[1].y);
             endOfPath = false;
@@ -55,24 +64,35 @@ public class AI_ : MonoBehaviour {
 
     }
 
-	void OnTriggerEnter2D(Collider2D obj){
-		if (obj.gameObject.tag == "PLAYER") {
-			Debug.Log ("Player violado");
-			Destroy (gameObject);
-		}
-	}
+    void OnTriggerStay2D(Collider2D obj)
+    {
+        if (obj.gameObject.tag == "PLAYER")
+        {
+            Debug.Log("Player violado");
+            Destroy(gameObject);
+        }
+    }
 
-	Vector2 GetPosition(){
+    Vector2 GetPosition(){
 		Vector2 position;
 		position.x = Mathf.RoundToInt(transform.position.x / 0.5f);
-		position.y = Mathf.RoundToInt(transform.position.y / 0.5f);
+		position.y = -Mathf.RoundToInt(transform.position.y / 0.5f);
 		return position;
 	}
 
 	void FollowPath(){
 
+        if(Time.time - time > 1.5)
+        {
+            Target newTarget = UpdateTarget();
+            if (newTarget != currentTarget) {
+                currentTarget = newTarget;
+                SeekTarget(currentTarget);
+            }
+        }
+
 		if (endOfPath) {
-			SeekPlayer ();
+			SeekTarget(UpdateTarget ());
 			return;
 		}
 
@@ -85,7 +105,7 @@ public class AI_ : MonoBehaviour {
 
 			nextTarget++;
 
-			if (nextTarget == movs) {
+			if (nextTarget >= movs) {
 				endOfPath = true;
 				return;
 			}
@@ -97,5 +117,21 @@ public class AI_ : MonoBehaviour {
 
 	}
 
+    Target UpdateTarget() {
+        Vector2 currentCoors = GetPosition();
+        Vector2 playerCoords = GameObject.Find("Player_1").GetComponent<PlayerControl>().GetPosition();
+        Vector2 mlgCoords = GameObject.Find("Mlg(Clone)").GetComponent<MlgStats>().GetPosition();
+        float distToPlayer = (playerCoords.x - currentCoors.x) * (playerCoords.x - currentCoors.x) +
+                             (playerCoords.y - currentCoors.y) * (playerCoords.y - currentCoors.y);
+
+        float distToMlg =    (mlgCoords.x - currentCoors.x) * (mlgCoords.x - currentCoors.x) +
+                             (mlgCoords.y - currentCoors.y) * (mlgCoords.y - currentCoors.y);
+
+        if (distToPlayer < distToMlg)
+            return Target.PLAYER;
+        else
+            return Target.MLG;
+
+    }
 
 }
