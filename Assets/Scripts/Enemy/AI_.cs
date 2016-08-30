@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 public class AI_ : MonoBehaviour {
 
     private enum Target { PLAYER,MLG};
+    private enum Mocos { VERDES,ROJOS,SANGRADOS};
     private List<Vector2> movsxy;
 	private float blockSize = 0.5f;
     private int movs = 0;
