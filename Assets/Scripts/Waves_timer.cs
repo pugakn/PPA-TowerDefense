@@ -1,28 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 public class Waves_timer : MonoBehaviour
 {
-    public int nWaves;
-    public int actualWave;
-    public int enemyHealth;
-    public int iWave_waveduration;
-    //private WaveScreen waveScreen;
-    private GameObject[] enemyes;
-
+    public int  iWave_waveduration;
+    public static List<GameObject> enemyes;
 
     private float fSpawntime_Acum;
     private GameObject controller;
     private float ffWave_timer;
-    public GameObject Plane_test_enemy;
+    public GameObject prefEnemy;
     public float enemySpawnTime;
-    public bool bWave_active = true;
     private bool spawnEnemyes = true;
 
     void Start(){
+      enemyes = new List<GameObject>();
       controller = GameObject.FindWithTag("MainCamera");
       ffWave_timer = 0;
       fSpawntime_Acum = enemySpawnTime;
+      enemyes.Clear();
     }
     void Update()
     {
@@ -33,16 +30,15 @@ public class Waves_timer : MonoBehaviour
             fSpawntime_Acum += Time.deltaTime;
             if (fSpawntime_Acum >= enemySpawnTime)
             {
-              GameObject enemy = Instantiate(Plane_test_enemy, transform.position, Quaternion.identity) as GameObject;
-              enemy.GetComponent<EnemyProfile>().Health = enemyHealth;
+              var enemy = Instantiate(prefEnemy, transform.position, Quaternion.identity) as GameObject;
+              enemyes.Insert (0, enemy);
               fSpawntime_Acum = 0;
             }
           }
           if (ffWave_timer > iWave_waveduration)
           {
-            enemyes = GameObject.FindGameObjectsWithTag("ENEMY");
             spawnEnemyes = false;
-            if (enemyes.Length == 0){
+            if (enemyes.Count == 0){
               controller.GetComponent<WaveScreen>().stopGame();
             }
           }

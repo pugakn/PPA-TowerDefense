@@ -17,8 +17,6 @@ public class WaveScreenCamera : MonoBehaviour {
 		minX = (limitX *.5f - Screen.width / Screen.height * 2) + GameObject.Find("Background").transform.position.x;
 		maxY = (2 - limitY * 0.5f) + GameObject.Find("Background").transform.position.y;
 		minY = (limitY * 0.5f - 2) + GameObject.Find("Background").transform.position.y;
-		Debug.Log(maxY);
-		Debug.Log(minY);
 	}
 
 	// Update is called once per frame

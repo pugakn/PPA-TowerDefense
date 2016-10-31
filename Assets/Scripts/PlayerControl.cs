@@ -12,7 +12,6 @@ public class PlayerControl : MonoBehaviour {
 	private Vector3 currentPos;
 	private List <Vector2> badPos;
 	private PrintMap map;
-	private Vector2 tilePos;
 	private char[,] walls;
 	private enum direction {NO,UP,DOWN,RIGHT,LEFT};
 	private direction redirect;
@@ -29,7 +28,6 @@ public class PlayerControl : MonoBehaviour {
 		width = map.width;
 		height = map.height;
 		badPos = map.badPositions;
-		tilePos = GetPosition();
 		walls = new char [100, 100] ;
 		foreach(Vector2 bad in badPos){
 			walls [(int)bad.x,(int)bad.y] = 'p';
@@ -38,25 +36,20 @@ public class PlayerControl : MonoBehaviour {
 	void Update (){
 			//REDIRECCION
 			if(redirect != direction.NO){
-				Debug.Log("Redirect");
 				if (redirect == direction.UP  && ValidMovement(Vector2.up)){
 					MoveUp();
-					Debug.Log("Redirect: UP");
 					redirect = direction.NO;
 				}
 				if (redirect == direction.DOWN  && ValidMovement(Vector2.down)) {
 					MoveDown();
-					Debug.Log("Redirect: DOWN");
 					redirect = direction.NO;
 				}
 				if (redirect == direction.RIGHT  && ValidMovement(Vector2.right)){
 					MoveRight();
-					Debug.Log("Redirect: RIGHT");
 					redirect = direction.NO;
 				}
 				if (redirect == direction.LEFT  && ValidMovement(Vector2.left)){
 					MoveLeft();
-					Debug.Log("Redirect: LEFT");
 					redirect = direction.NO;
 				}
 			}
@@ -98,28 +91,24 @@ public class PlayerControl : MonoBehaviour {
 		move.y = 1;
 		move.x = 0;
 		redirect = direction.NO;
-		//Debug.Log("UP");
 	}
 	void MoveDown(){
 		RepositionPlayer();
 		move.y = -1;
 		move.x = 0;
 		redirect = direction.NO;
-		//Debug.Log("DOWN");
 	}
 	void MoveRight(){
 		RepositionPlayer();
 		move.x = 1;
 		move.y = 0;
 		redirect = direction.NO;
-		//Debug.Log("RIGHT");
 	}
 	void MoveLeft(){
 		RepositionPlayer();
 		move.x = -1;
 		move.y = 0;
 		redirect = direction.NO;
-		//Debug.Log("LEFT");
 	}
 	void CalculateDirection(){
 		dirX = false;
@@ -144,11 +133,6 @@ public class PlayerControl : MonoBehaviour {
 	public bool ValidMovement(Vector2 direction){
 		direction = new Vector2 (direction.x,-direction.y);
 		Vector2 tilePos = GetPosition() + direction;
-		/*for (int i = 0; i < badPos.Count ; i++){
-			if((int)badPos[i].x == (int)tilePos.x && (int)badPos[i].y == (int)tilePos.y)
-				return false;
-		}
-		return true;*/
 		return !(walls[(int)tilePos.x,(int)tilePos.y] == 'p');
 	}
 }

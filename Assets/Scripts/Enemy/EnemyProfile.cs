@@ -1,54 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyProfile : MonoBehaviour {
     public int Health, Damage, Speed;
-    public string Special; //Dodge, Regen, Fly, Ground, Slow, Shield, Troll, Shooter, Ninja, Healer
-
-   /* void ActiveSpecial()
-    {
-        if (Special == "Dodge")
-        {
-        } else
-       if (Special == "Regen")
-        {
-        } else
-       if (Special == "Fly")
-        {
-        }
-        if (Special == "Ground")
-        {
-        }
-        else
-        if (Special == "Slow")
-        {
-        }
-        else
-        if (Special == "Shield")
-        {
-        }
-        else
-        if (Special == "Troll")
-        {
-        }
-        else
-        if (Special == "Shooter")
-        {
-        }
-        else
-        if (Special == "Ninja")
-        {
-        }
-        else
-        if (Special == "Healer")
-        {
-        }
-    }*/
-
     void Death()
     {
+        Waves_timer.enemyes.Remove(this.gameObject);
         Destroy(gameObject);
-        //tower.GetComponent<TowerAttack>().targetEnemy = null;
     }
 
     public void TakingDamage(int Damage)
@@ -65,16 +24,6 @@ public class EnemyProfile : MonoBehaviour {
         Destroy(obj);
 
       }
-
-    }
-
-        // Use this for initialization
-        void Start () {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
 
     }
 }

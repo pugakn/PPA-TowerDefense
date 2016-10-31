@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MlgStats : MonoBehaviour {
 
-    private int _health = 100;
     private Vector2 _coords;
     public int life;
     private GameObject mainControler;

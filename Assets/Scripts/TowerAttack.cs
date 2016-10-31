@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 public class TowerAttack : MonoBehaviour {
@@ -15,18 +16,15 @@ private float unitFactor;
 private float rotationZ;
 public GameObject wave;
 private float timer = 0;
-private GameObject[] enemyes;
+private  Waves_timer  _spawner;
 public float towerRange;
-
-	// Use this for initialization
+    
 	void Start () {
 		wave = GameObject.Find("Main Camera");
-	}
-
-	// Update is called once per frame
+        InvokeRepeating("SelectTarget", 0, 0.1f);
+    }
 	void FixedUpdate () {
-		if (wave.GetComponent<WaveScreen>().onPlay){
-			StartCoroutine(SelectTarget());
+        if (wave.GetComponent<WaveScreen>().onPlay){
 			if (targetEnemy != null){
 				timer += Time.deltaTime;
 				//Rotacion
@@ -48,52 +46,43 @@ public float towerRange;
 				transform.eulerAngles = new Vector3(0,0,0);
 			}
 		}
-	}
+    }
 
-	private GameObject enemy;
-	private GameObject targetEnemy;
-	private Vector3 pos;
-	private float relativePosX;
-	private float relativePosY;
-	private float dist;
-	private float dist2 = 0;
-	private bool areEnemy = true;
 
-	IEnumerator SelectTarget(){
-		enemyes = GameObject.FindGameObjectsWithTag("ENEMY");
-		if (enemyes.Length > 1){
-			foreach (GameObject enemy in enemyes){
-				pos = enemy.transform.position;
-				dist2 = dist;
+    private GameObject targetEnemy;
+    private Vector3 pos;
+    private float relativePosX;
+    private float relativePosY;
+    private float dist;
+    private float dist2 = 0;
+    void SelectTarget(){
+
+        if (Waves_timer.enemyes.Count > 1){
+        for (var it = 0; it <  Waves_timer.enemyes.Count; it++)
+            {
+            GameObject enemy = Waves_timer.enemyes[it];
+            pos = Waves_timer.enemyes[it].transform.position;
+            dist2 = dist;
 				relativePosX = pos.x - transform.position.x;
 				relativePosY = pos.y - transform.position.y;
-				dist = Mathf.Sqrt(relativePosX*relativePosX  + relativePosY*relativePosY);
-				if (dist < dist2 && dist < towerRange){
+				dist = relativePosX*relativePosX  + relativePosY*relativePosY;
+				if (dist < dist2 && dist < towerRange)
 					targetEnemy = enemy;
-				}
-			}
-		} else if (enemyes.Length == 1){
-			pos = enemyes[0].transform.position;
+                else targetEnemy = null;
+
+            }
+		} else if (Waves_timer.enemyes.Count == 1){
+			pos = Waves_timer.enemyes[0].transform.position;
 			relativePosX = pos.x - transform.position.x;
 			relativePosY = pos.y - transform.position.y;
-			dist = Mathf.Sqrt(relativePosX*relativePosX  + relativePosY*relativePosY);
-			if(dist < towerRange){
-				Debug.Log(dist);
-				targetEnemy = enemyes[0];
-				Debug.Log(targetEnemy);
-			}else{
-				targetEnemy = null;
-			}
+			dist = relativePosX*relativePosX  + relativePosY*relativePosY;
+			if(dist < towerRange){ targetEnemy = Waves_timer.enemyes[0]; }
+            else targetEnemy = null; 
 		}
-		yield return new WaitForSeconds(0.5f);
-	}
+    }
 
-	void DamageEnemy(){
-		//TODO: daño a enemigos
-		if (targetEnemy != null){
-				targetEnemy.GetComponent<EnemyProfile>().TakingDamage(1);
-		}
-
+    void DamageEnemy(){
+		targetEnemy.GetComponent<EnemyProfile>().TakingDamage(1);
 	}
 
 

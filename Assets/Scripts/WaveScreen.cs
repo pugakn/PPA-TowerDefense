@@ -62,14 +62,12 @@ public class WaveScreen : MonoBehaviour {
 		}
 		spawners = GameObject.FindGameObjectsWithTag("SPAWNER");
 		foreach(GameObject spawnerPlace in spawners){
-			GameObject temp = Instantiate(spawner, spawnerPlace.transform.position,spawnerPlace.transform.rotation) as GameObject;
-			temp.GetComponent<Waves_timer>().enemyHealth = spawnerPlace.GetComponent<Waves_timer>().enemyHealth + 5;
-		//	temp.GetComponent<Waves_timer>().actualWave = spawnerPlace.GetComponent<Waves_timer>().actualWave + 1;
+			Instantiate(spawner, spawnerPlace.transform.position,spawnerPlace.transform.rotation);
 			Destroy(spawnerPlace,0);
 		}
 
 	}
-	public void stopGame(){
+	 public void stopGame(){
 		if(actualWave != nWaves){
 			playerControl.enabled = false;
 			waveCamera.enabled = true;

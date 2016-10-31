@@ -4,12 +4,10 @@ using System.Collections;
 public class GameCamera : MonoBehaviour {
 	public GameObject player;
 
-	// Use this for initialization
 	void Start () {
 		player = GameObject.FindWithTag("PLAYER");
 	}
 
-	// Update is called once per frame
 	void Update () {
 			if (player != null){
 

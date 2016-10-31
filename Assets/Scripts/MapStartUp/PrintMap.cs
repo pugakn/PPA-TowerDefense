@@ -59,7 +59,6 @@ public void print_map () {
 						Instantiate (prefabs [k], position_, Quaternion.identity);
                         if(k == 9)
                             {
-															Debug.Log("jajaja");
                                 Vector2 coords = new Vector2(j, i);
                                 GameObject.Find("Mlg(Clone)").GetComponent<MlgStats>().SetPosition(coords);
                             }
